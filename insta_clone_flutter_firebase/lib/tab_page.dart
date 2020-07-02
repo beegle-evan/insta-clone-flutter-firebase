@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instaflutter/home_page.dart';
 
 class TabPage extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class _TabPageState extends State<TabPage> {
 
   // 아래 _page에 text가 아닌 page 화면 들이 들어가면 된다.
   List _pages = [
-    Text('Page 1'),
+    HomePage(),
     Text('Page 2'),
     Text('Page 3')
   ];
@@ -22,6 +23,7 @@ class _TabPageState extends State<TabPage> {
         child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.black,
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
         items: <BottomNavigationBarItem>[
