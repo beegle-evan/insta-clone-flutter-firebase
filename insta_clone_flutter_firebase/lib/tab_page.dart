@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instaflutter/account_page.dart';
 import 'package:instaflutter/home_page.dart';
+import 'package:instaflutter/search_page.dart';
 
 class TabPage extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _TabPageState extends State<TabPage> {
   // 아래 _page에 text가 아닌 page 화면 들이 들어가면 된다.
   List _pages = [
     HomePage(),
-    Text('Page 2'),
+    SearchPage(),
     AccountPage()
   ];
 
