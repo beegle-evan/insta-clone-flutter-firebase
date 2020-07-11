@@ -17,11 +17,18 @@ class _TabPageState extends State<TabPage> {
   int _selectedIndex = 0;
 
   // 아래 _page에 text가 아닌 page 화면 들이 들어가면 된다.
-  List _pages = [
-    HomePage(),
-    SearchPage(),
-    AccountPage()
-  ];
+  List _pages;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pages = [
+      HomePage(widget.user),
+      SearchPage(widget.user),
+      AccountPage(widget.user)
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
