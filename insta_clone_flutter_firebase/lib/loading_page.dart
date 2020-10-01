@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 
-class LoadingPage extends StatefulWidget {
-  @override
-  _LoadingPageState createState() => _LoadingPageState();
-}
-
-class _LoadingPageState extends State<LoadingPage> {
+class LoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
       child: CircularProgressIndicator(),
     );
   }

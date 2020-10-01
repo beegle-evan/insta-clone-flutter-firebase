@@ -3,6 +3,8 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instaflutter/tab_page.dart';
+import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatelessWidget {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -16,16 +18,17 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('Instagram Clone',
-              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+              style: GoogleFonts.pacifico(fontSize: 40.0, fontWeight: FontWeight.bold),
             ),
-            Padding(
-              padding: EdgeInsets.all(50.0),
+            Container(
+              margin: EdgeInsets.all(50.0),
             ),
             SignInButton(
               Buttons.Google,
               onPressed: () {
                 _handleSignIn().then((user){
                   print(user);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TabPage(user)));
                   //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TabPage(user)));
                 });
               },

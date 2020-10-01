@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
           stream: Firestore.instance.collection('post').snapshots(),
           builder: (_, snapshot) {
             if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(),);
             }
 
             var items = snapshot.data?.documents ?? [];
@@ -56,7 +56,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildListItem(context, document) {
+  Widget _buildListItem(context, DocumentSnapshot document) {
     return Hero(
       tag: document['photoUrl'],
       child: Material(

@@ -8,6 +8,8 @@ class AccountPage extends StatefulWidget {
 
   AccountPage(this.user);
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   _AccountPageState createState() => _AccountPageState();
 }
