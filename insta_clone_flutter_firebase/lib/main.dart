@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instaflutter/root_page.dart';
+import 'root_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Insta-Clone',
       theme: ThemeData(
-        primaryColor:  Colors.white,
+        primaryColor: Colors.white,
         accentColor: Colors.black,
       ),
       home: RootPage(),

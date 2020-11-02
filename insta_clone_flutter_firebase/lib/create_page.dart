@@ -1,9 +1,11 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreatePage extends StatefulWidget {
   final FirebaseUser user;
@@ -17,83 +19,194 @@ class CreatePage extends StatefulWidget {
 class _CreatePageState extends State<CreatePage> {
   final textEditingController = TextEditingController();
 
-  File _image;
+  @override
+  void initState() {
+    super.initState();
+    _getImage();
+  }
 
   @override
   void dispose() {
-    textEditingController.dispose(); // 메모리 해제를 해줘야 하는 객체
+    textEditingController.dispose();
     super.dispose();
+  }
+
+  File _image;
+
+  // 갤러리에서 사진 가져오기
+  Future _getImage() async {
+    var image = await ImagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 640,
+      maxHeight: 480,
+    );
+
+    setState(() {
+      _image = image;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: _buildBody(),
-      floatingActionButton: FloatingActionButton(onPressed: _getImage,
-        child: Icon(Icons.add_a_photo),
-      ),
     );
   }
 
-  Widget _buildAppBar() {
+  Widget _buildAppBar(BuildContext context) {
     return AppBar(
+      title: Text('새 게시물'),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.send),
+        FlatButton(
           onPressed: () {
-            final firebaseStorageRef = FirebaseStorage.instance
-                .ref()
-                .child('post')
-                .child('${DateTime
-                .now()
-                .millisecondsSinceEpoch}.png');
-
-            final task = firebaseStorageRef.putFile(
-                _image, StorageMetadata(contentType: 'image/png'));
-
-            task.onComplete.then((value) {
-              var downloadUrl = value.ref.getDownloadURL();
-
-              downloadUrl.then((uri) {
-                var doc = Firestore.instance.collection('post').document();
-                doc.setData({
-                  'id': doc.documentID,
-                  'photoUrl': uri.toString(),
-                  'contents': textEditingController.text,
-                  'email': widget.user.email,
-                  'displayName': widget.user.displayName,
-                  'userPhotoUrl': widget.user.photoUrl
-                }).then((onValue) {
-                  // 완료 후 앞 화면으로 이동
-                  Navigator.pop(context);
-                });
-              });
-            });
-          }
+            _uploadFile(context);
+          },
+          child: Text('공유'),
         )
-      ]
+      ],
     );
+  }
+
+  Future _uploadFile(BuildContext context) async {
+    // 스토리지에 업로드할 파일 경로
+    final firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('post').child('${DateTime.now().millisecondsSinceEpoch}.png');
+
+    // 파일 업로드
+    final task = firebaseStorageRef.putFile(
+      _image,
+      StorageMetadata(contentType: 'image/png'),
+    );
+
+    // 완료까지 기다림
+    final storageTaskSnapshot = await task.onComplete;
+
+    // 업로드 완료 후 url
+    final downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
+
+    // 문서 작성
+    await Firestore.instance.collection('post').add({
+      'contents': textEditingController.text,
+      'displayName': widget.user.displayName,
+      'email': widget.user.email,
+      'photoUrl': downloadUrl,
+      'userPhotoUrl': widget.user.photoUrl,
+    });
+
+    // 완료 후 앞 화면으로 이동
+    Navigator.pop(context);
   }
 
   Widget _buildBody() {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _image == null ? Text('No Image') : Image.file(_image),
-          TextField(
-            decoration: InputDecoration(hintText: '내용을 입력하세요'),
-            controller: textEditingController,
-          )
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                _buildImage(),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: '문구 입력...',
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Divider(),
+          ListTile(
+            leading: Text('사람 태그하기'),
+          ),
+          Divider(),
+          ListTile(
+            leading: Text('위치 추가하기'),
+          ),
+          Divider(),
+          _buildLocation(),
+          ListTile(
+            leading: Text('위치 추가하기'),
+          ),
+          ListTile(
+            leading: Text('Facebook'),
+            trailing: Switch(
+              value: false,
+              onChanged: (bool value) {},
+            ),
+          ),
+          ListTile(
+            leading: Text('Twitter'),
+            trailing: Switch(
+              value: false,
+              onChanged: (bool value) {},
+            ),
+          ),
+          ListTile(
+            leading: Text('Tumblr'),
+            trailing: Switch(
+              value: false,
+              onChanged: (bool value) {},
+            ),
+          ),
+          Divider(),
+          ListTile(
+            leading: Text(
+              '고급 설정',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: Colors.grey[800],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Future _getImage() async {
-    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState((){
-      _image = image;
-    });
+  Widget _buildImage() {
+    return _image == null
+        ? Text('No Image')
+        : Image.file(
+            _image,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          );
+  }
+
+  Widget _buildLocation() {
+    final locationItems = [
+      '꿈두레 도서관',
+      '경기도 오산',
+      '오산세교',
+      '동탄2신도시',
+      '동탄',
+      '검색',
+    ];
+    return SizedBox(
+      height: 34.0,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: locationItems.map((location) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Chip(
+              label: Text(
+                location,
+                style: TextStyle(fontSize: 12.0),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }

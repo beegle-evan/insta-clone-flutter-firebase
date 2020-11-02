@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:instaflutter/loading_page.dart';
-import 'package:instaflutter/login_page.dart';
-import 'package:instaflutter/tab_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+import 'loading_page.dart';
+import 'login_page.dart';
+import 'tab_page.dart';
 
 class RootPage extends StatelessWidget {
   @override
@@ -12,23 +13,20 @@ class RootPage extends StatelessWidget {
   }
 
   Widget _handleCurrentScreen() {
-    return StreamBuilder<FirebaseUser>(
+    return StreamBuilder(
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         // 연결 상태가 기다리는 중이라면 로딩 페이지를 반환
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingPage();
         } else {
+          // 연결 되었고 데이터가 있다면
           if (snapshot.hasData) {
-            // 데이터가 있을때
             return TabPage(snapshot.data);
-          } else {
-            // 데이터가 없을때
-            return LoginPage();
           }
+          return LoginPage();
         }
       },
     );
   }
 }
-
