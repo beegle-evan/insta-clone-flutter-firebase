@@ -32,20 +32,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        home: Scaffold(
-          body: _screens[_selectedIndex],
-          bottomNavigationBar: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: btmNavItems,
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: Colors.black87,
-            currentIndex: _selectedIndex,
-            onTap: _onBtmItemClick,
-          ),
-        ));
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: btmNavItems,
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.black87,
+        currentIndex: _selectedIndex,
+        onTap: _onBtmItemClick,
+      ),
+    );
   }
 
   void _onBtmItemClick(int index) {
