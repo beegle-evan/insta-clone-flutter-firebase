@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_clone_app/feed_screen.dart';
 
 // stateless widget을 stateful widget으로 변경하는데, 간단히 바꾸는것은 옵션+엔터 단축키로 바꾸는 것이다.
 // 옵셥 + 엔터 하면, stateful widget으로 변경하는 옵션이 나온다.
@@ -23,7 +24,8 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   List<Widget> _screens = <Widget>[
-    Container(color: Colors.amberAccent), // Command + d 단축키로 아래로 반복 복사를 할 수 있다
+    // Command + d 단축키로 아래로 반복 복사를 할 수 있다
+    FeedScreen(),
     Container(color: Colors.blueAccent),
     Container(color: Colors.greenAccent),
     Container(color: Colors.deepPurpleAccent),
@@ -33,7 +35,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],
+      // body에 _screens를 그냥 넣으면, 복잡한 화면일때 항상 새로 다시 그리면서, 불필요한 작업이 많은 문제가 발생한다.
+      // 이를 수정하기 위해, IndexedStack을 사
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
