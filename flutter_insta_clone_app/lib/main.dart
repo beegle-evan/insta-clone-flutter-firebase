@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_clone_app/constants/material_white.dart';
 import 'package:flutter_insta_clone_app/home_page.dart';
 
 void main() {
@@ -11,6 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'flutter app',
       home: HomePage(),
+      theme: ThemeData(
+        primarySwatch: white,
+      ),
     );
   }
 }
