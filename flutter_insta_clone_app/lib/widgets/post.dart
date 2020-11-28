@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 
 class Post extends StatelessWidget {
   final int index;
@@ -18,26 +19,16 @@ class Post extends StatelessWidget {
     }
 
     return CachedNetworkImage(
-      imageUrl: 'https://picsum.photos/id/$index/2000/2000',
+      imageUrl: 'https://picsum.photos/id/$index/200/200',
       placeholder: (BuildContext context, String url) {
-        return Container(
-          width: size.width,
-          height: size.height,
-          child: Center(
-            child: SizedBox(
-              height: 60,
-              width: 60,
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.black87,
-              ),
-            ),
-          ),
+        return MyProgressIndicator(
+          containerSize: size.height,
         );
       },
       imageBuilder: (BuildContext context, ImageProvider imageProvider) {
         return AspectRatio(
           aspectRatio: 1,
-          child: Container(decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.fill))),
+          child: Container(decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
         );
       },
     );
