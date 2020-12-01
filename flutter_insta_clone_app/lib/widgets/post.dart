@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
+import 'package:flutter_insta_clone_app/widgets/rounded_avatar.dart';
 
 class Post extends StatelessWidget {
   final int index;
@@ -31,13 +32,7 @@ class Post extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(common_xxs_gap),
-          child: ClipOval( // child를 동그랗게 감싸줌
-            child: CachedNetworkImage(
-              imageUrl: 'https://picsum.photos/100',
-              width: avatar_size,
-              height: avatar_size,
-            ),
-          ),
+          child: RoundedAvatar(),
         ),
         Text('username'),
         IconButton(
@@ -68,3 +63,4 @@ class Post extends StatelessWidget {
       );
   }
 }
+
