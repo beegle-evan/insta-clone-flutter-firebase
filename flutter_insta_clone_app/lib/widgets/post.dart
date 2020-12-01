@@ -26,12 +26,16 @@ class Post extends StatelessWidget {
         _postHeader(),
         _postImage(),
         _postActions(),
-        Padding(
-          padding: const EdgeInsets.only(left: common_gap),
-          child: Text('120000 likes', style: TextStyle(fontWeight: FontWeight.bold),),
-        ),
+        _postLikes(),
       ],
     );
+  }
+
+  Padding _postLikes() {
+    return Padding(
+        padding: const EdgeInsets.only(left: common_gap),
+        child: Text('120000 likes', style: TextStyle(fontWeight: FontWeight.bold),),
+      );
   }
 
   Row _postActions() {
