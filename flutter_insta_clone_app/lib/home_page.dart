@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_insta_clone_app/feed_screen.dart';
+import 'package:flutter_insta_clone_app/screens/feed_screen.dart';
+import 'package:flutter_insta_clone_app/screens/profile_screen.dart';
 
 // stateless widget을 stateful widget으로 변경하는데, 간단히 바꾸는것은 옵션+엔터 단축키로 바꾸는 것이다.
 // 옵셥 + 엔터 하면, stateful widget으로 변경하는 옵션이 나온다.
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     Container(color: Colors.blueAccent),
     Container(color: Colors.greenAccent),
     Container(color: Colors.deepPurpleAccent),
-    Container(color: Colors.cyanAccent),
+    ProfileScreen(),
   ];
 
   @override
