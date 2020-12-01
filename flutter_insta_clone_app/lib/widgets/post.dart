@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
+import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/widgets/comment.dart';
 import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:flutter_insta_clone_app/widgets/rounded_avatar.dart';
 
 class Post extends StatelessWidget {
   final int index;
-  Size size;
 
   Post(
     this.index, {
@@ -17,10 +17,6 @@ class Post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (size == null) {
-      size = MediaQuery.of(context).size; // 화면의 크기를 가져옴
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -35,37 +31,26 @@ class Post extends StatelessWidget {
 
   Padding _postLikes() {
     return Padding(
-        padding: const EdgeInsets.only(left: common_gap),
-        child: Text('120000 likes', style: TextStyle(fontWeight: FontWeight.bold),),
-      );
+      padding: const EdgeInsets.only(left: common_gap),
+      child: Text(
+        '120000 likes',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
   }
 
   Row _postActions() {
     return Row(
-        children: <Widget>[
-          IconButton(
-              icon: ImageIcon(AssetImage('assets/images/bookmark.png')),
-              color: Colors.black87,
-              onPressed: null
-          ),
-          IconButton(
-              icon: ImageIcon(AssetImage('assets/images/comment.png')),
-              color: Colors.black87,
-              onPressed: null
-          ),
-          IconButton(
-              icon: ImageIcon(AssetImage('assets/images/direct_message.png')),
-              color: Colors.black87,
-              onPressed: null
-          ),
-          Spacer(), // IconButton을 차지하고 나머지 공간을 spacer가 차지
-          IconButton(
-              icon: ImageIcon(AssetImage('assets/images/heart_selected.png')),
-              color: Colors.black87,
-              onPressed: null
-          )
-        ],
-      );
+      children: <Widget>[
+        IconButton(icon: ImageIcon(AssetImage('assets/images/bookmark.png')), color: Colors.black87, onPressed: null),
+        IconButton(icon: ImageIcon(AssetImage('assets/images/comment.png')), color: Colors.black87, onPressed: null),
+        IconButton(
+            icon: ImageIcon(AssetImage('assets/images/direct_message.png')), color: Colors.black87, onPressed: null),
+        Spacer(), // IconButton을 차지하고 나머지 공간을 spacer가 차지
+        IconButton(
+            icon: ImageIcon(AssetImage('assets/images/heart_selected.png')), color: Colors.black87, onPressed: null)
+      ],
+    );
   }
 
   Widget _postHeader() {
@@ -80,7 +65,7 @@ class Post extends StatelessWidget {
           onPressed: null,
           icon: Icon(
             Icons.more_horiz,
-            color:Colors.black87,
+            color: Colors.black87,
           ),
         )
       ],
@@ -89,25 +74,28 @@ class Post extends StatelessWidget {
 
   CachedNetworkImage _postImage() {
     return CachedNetworkImage(
-        imageUrl: 'https://picsum.photos/id/$index/200/200',
-        placeholder: (BuildContext context, String url) {
-          return MyProgressIndicator(
-            containerSize: size.height,
-          );
-        },
-        imageBuilder: (BuildContext context, ImageProvider imageProvider) {
-          return AspectRatio(
-            aspectRatio: 1,
-            child: Container(decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
-          );
-        },
-      );
+      imageUrl: 'https://picsum.photos/id/$index/200/200',
+      placeholder: (BuildContext context, String url) {
+        return MyProgressIndicator(
+          containerSize: size.height,
+        );
+      },
+      imageBuilder: (BuildContext context, ImageProvider imageProvider) {
+        return AspectRatio(
+          aspectRatio: 1,
+          child: Container(decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
+        );
+      },
+    );
   }
 
   Widget _postCaption() {
     // 글 안에 다양한 폰트와 글자들이 사용될 경우 RichText를 사용
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: common_gap, vertical: common_xxs_gap,),
+      padding: const EdgeInsets.symmetric(
+        horizontal: common_gap,
+        vertical: common_xxs_gap,
+      ),
       child: Comment(
         showImage: false,
         username: 'testingUser',
@@ -116,5 +104,3 @@ class Post extends StatelessWidget {
     );
   }
 }
-
-

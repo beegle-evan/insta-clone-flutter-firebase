@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/screens/feed_screen.dart';
 import 'package:flutter_insta_clone_app/screens/profile_screen.dart';
 
@@ -35,6 +36,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (size == null) {
+      size = MediaQuery.of(context).size; // 화면의 크기를 가져옴
+    }
+
     return Scaffold(
       // body에 _screens를 그냥 넣으면, 복잡한 화면일때 항상 새로 다시 그리면서, 불필요한 작업이 많은 문제가 발생한다.
       // 이를 수정하기 위해, IndexedStack을 사

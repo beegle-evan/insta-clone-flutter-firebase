@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
+import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 
 class ProfileBody extends StatefulWidget {
   @override
@@ -18,40 +19,11 @@ class _ProfileBodyState extends State<ProfileBody> {
           // 아래 구문은 패턴처럼 사용하면 됨. 리스트와 그리드뷰등을 모아서 동작하는 것을 만들기 위해 sliver를 사용
           SliverList(
             delegate: SliverChildListDelegate([
-              _username(),
-              _userbio(),
+              _userName(),
+              _userBio(),
               _editProfileBtn(),
-              Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceAround, // 클릭할 수 있는 부분이 더 적음, Expanded가 더 넓게 클릭가능
-                children: <Widget>[
-                  Expanded(
-                    child: IconButton(
-                      icon: ImageIcon(
-                        AssetImage('assets/images/grid.png'),
-                        color: selectedLeft ? Colors.black : Colors.black26,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          selectedLeft = true;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      icon: ImageIcon(
-                        AssetImage('assets/images/saved.png'),
-                        color: selectedLeft ? Colors.black26 : Colors.black,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          selectedLeft = false;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              )
+              _tabButtons(),
+              _selectedIndicator(),
             ]),
           )
         ],
@@ -59,7 +31,41 @@ class _ProfileBodyState extends State<ProfileBody> {
     );
   }
 
-  Widget _username() {
+  Row _tabButtons() {
+    return Row(
+      //mainAxisAlignment: MainAxisAlignment.spaceAround, // 클릭할 수 있는 부분이 더 적음, Expanded가 더 넓게 클릭가능
+      children: <Widget>[
+        Expanded(
+          child: IconButton(
+            icon: ImageIcon(
+              AssetImage('assets/images/grid.png'),
+              color: selectedLeft ? Colors.black : Colors.black26,
+            ),
+            onPressed: () {
+              setState(() {
+                selectedLeft = true;
+              });
+            },
+          ),
+        ),
+        Expanded(
+          child: IconButton(
+            icon: ImageIcon(
+              AssetImage('assets/images/saved.png'),
+              color: selectedLeft ? Colors.black26 : Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
+                selectedLeft = false;
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _userName() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: common_gap, vertical: common_xxs_gap),
       child: Text(
@@ -69,7 +75,7 @@ class _ProfileBodyState extends State<ProfileBody> {
     );
   }
 
-  Widget _userbio() {
+  Widget _userBio() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: common_gap),
       child: Text(
@@ -93,6 +99,19 @@ class _ProfileBodyState extends State<ProfileBody> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
+    );
+  }
+
+  Widget _selectedIndicator() {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      alignment: selectedLeft ? Alignment.centerLeft : Alignment.centerRight,
+      child: Container(
+        height: 3,
+        width: size.width / 2,
+        color: Colors.black87,
+      ),
+      curve: Curves.fastOutSlowIn,
     );
   }
 }
