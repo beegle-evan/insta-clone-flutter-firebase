@@ -11,9 +11,21 @@ class ProfileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _appbar(),
-            _username(),
-            _userbio(),
-            _editProfileBtn(),
+            Expanded(
+              // Expanded로 펼치지 않으면, 화면에 보이지 않게됨.
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  // 아래 구문은 패턴처럼 사용하면 됨. 리스트와 그리드뷰등을 모아서 동작하는 것을 만들기 위해 sliver를 사용
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      _username(),
+                      _userbio(),
+                      _editProfileBtn(),
+                    ]),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
