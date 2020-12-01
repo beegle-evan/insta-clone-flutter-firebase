@@ -87,11 +87,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               color: _selectedTab == SelectedTab.left ? Colors.black : Colors.black26,
             ),
             onPressed: () {
-              setState(() {
-                _selectedTab = SelectedTab.left;
-                _leftImagesPageMargin = 0;
-                _rightImagesPageMargin = size.width;
-              });
+              _tabSelected(SelectedTab.left);
             },
           ),
         ),
@@ -102,16 +98,29 @@ class _ProfileBodyState extends State<ProfileBody> {
               color: _selectedTab == SelectedTab.left ? Colors.black26 : Colors.black,
             ),
             onPressed: () {
-              setState(() {
-                _selectedTab = SelectedTab.right;
-                _leftImagesPageMargin = -size.width;
-                _rightImagesPageMargin = 0;
-              });
+              _tabSelected(SelectedTab.right);
             },
           ),
         ),
       ],
     );
+  }
+
+  _tabSelected(SelectedTab selectedTab) {
+    setState(() {
+      switch (selectedTab) {
+        case SelectedTab.left:
+          _selectedTab = SelectedTab.left;
+          _leftImagesPageMargin = 0;
+          _rightImagesPageMargin = size.width;
+          break;
+        case SelectedTab.right:
+          _selectedTab = SelectedTab.right;
+          _leftImagesPageMargin = -size.width;
+          _rightImagesPageMargin = 0;
+          break;
+      }
+    });
   }
 
   Widget _userName() {
