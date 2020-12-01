@@ -24,9 +24,39 @@ class Post extends StatelessWidget {
       children: [
         _postHeader(),
         _postImage(),
+        _postActions()
       ],
     );
   }
+
+  Row _postActions() {
+    return Row(
+        children: <Widget>[
+          IconButton(
+              icon: ImageIcon(AssetImage('assets/images/bookmark.png')),
+              color: Colors.black87,
+              onPressed: null
+          ),
+          IconButton(
+              icon: ImageIcon(AssetImage('assets/images/comment.png')),
+              color: Colors.black87,
+              onPressed: null
+          ),
+          IconButton(
+              icon: ImageIcon(AssetImage('assets/images/direct_message.png')),
+              color: Colors.black87,
+              onPressed: null
+          ),
+          Spacer(), // IconButton을 차지하고 나머지 공간을 spacer가 차지
+          IconButton(
+              icon: ImageIcon(AssetImage('assets/images/heart_selected.png')),
+              color: Colors.black87,
+              onPressed: null
+          )
+        ],
+      );
+  }
+
   Widget _postHeader() {
     return Row(
       children: [
