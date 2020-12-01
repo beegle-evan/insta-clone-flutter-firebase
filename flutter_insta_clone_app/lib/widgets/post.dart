@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
+import 'package:flutter_insta_clone_app/widgets/comment.dart';
 import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:flutter_insta_clone_app/widgets/rounded_avatar.dart';
 
@@ -27,6 +28,7 @@ class Post extends StatelessWidget {
         _postImage(),
         _postActions(),
         _postLikes(),
+        _postCaption(),
       ],
     );
   }
@@ -101,5 +103,18 @@ class Post extends StatelessWidget {
         },
       );
   }
+
+  Widget _postCaption() {
+    // 글 안에 다양한 폰트와 글자들이 사용될 경우 RichText를 사용
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: common_gap, vertical: common_xxs_gap,),
+      child: Comment(
+        showImage: false,
+        username: 'testingUser',
+        text: 'I have money!!!!',
+      ),
+    );
+  }
 }
+
 

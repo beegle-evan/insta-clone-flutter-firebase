@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 
 class RoundedAvatar extends StatelessWidget {
+
+  final double size;
+
   const RoundedAvatar({
-    Key key,
+    Key key, this.size = avatar_size,
   }) : super(key: key);
 
   @override
@@ -12,8 +15,8 @@ class RoundedAvatar extends StatelessWidget {
     return ClipOval( // child를 동그랗게 감싸줌
       child: CachedNetworkImage(
         imageUrl: 'https://picsum.photos/100',
-        width: avatar_size,
-        height: avatar_size,
+        width: size,
+        height: size,
       ),
     );
   }
