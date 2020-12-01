@@ -21,10 +21,15 @@ class Post extends StatelessWidget {
     }
 
     return Column(
-      children: [
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
         _postHeader(),
         _postImage(),
-        _postActions()
+        _postActions(),
+        Padding(
+          padding: const EdgeInsets.only(left: common_gap),
+          child: Text('120000 likes', style: TextStyle(fontWeight: FontWeight.bold),),
+        ),
       ],
     );
   }
