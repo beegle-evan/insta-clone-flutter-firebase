@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
@@ -9,6 +11,8 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   SelectedTab _selectedTab = SelectedTab.left;
+  double _leftImagesPageMargin = 0;
+  double _rightImagesPageMargin = size.width;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,49 @@ class _ProfileBodyState extends State<ProfileBody> {
               _tabButtons(),
               _selectedIndicator(),
             ]),
-          )
+          ),
+
+          _imagesPager(),
         ],
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _imagesPager() {
+    //SliverGrid(delegate: null, gridDelegate: null)
+    return SliverToBoxAdapter(
+      child: Stack(
+        children: [
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            transform: Matrix4.translationValues(_leftImagesPageMargin, 0, 0),
+            curve: Curves.fastOutSlowIn,
+            child: _images(),
+          ),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            transform: Matrix4.translationValues(_rightImagesPageMargin, 0, 0),
+            curve: Curves.fastOutSlowIn,
+            child: _images(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  GridView _images() {
+    return GridView.count(
+      // physics는 scroll이 발생했을 때, 어떤 위젯이 그 이벤트를 받아야하는지 헷갈리기 때문에, 이처럼 작성하면 그 이벤트를 받지 않는다
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true, // shrinkWrap을 true로 할 경우, data 갯수에 맞게 GridView크기가 정해진다.
+      crossAxisCount: 3,
+      childAspectRatio: 1, // child의 가로, 세로 비율을 1:1로 함
+      children: List.generate(
+        30,
+        (index) => CachedNetworkImage(
+          fit: BoxFit.cover,
+          imageUrl: "https://picsum.photos/id/$index/100/100",
+        ),
       ),
     );
   }
@@ -44,6 +89,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             onPressed: () {
               setState(() {
                 _selectedTab = SelectedTab.left;
+                _leftImagesPageMargin = 0;
+                _rightImagesPageMargin = size.width;
               });
             },
           ),
@@ -57,6 +104,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             onPressed: () {
               setState(() {
                 _selectedTab = SelectedTab.right;
+                _leftImagesPageMargin = -size.width;
+                _rightImagesPageMargin = 0;
               });
             },
           ),
