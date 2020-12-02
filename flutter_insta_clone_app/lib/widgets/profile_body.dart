@@ -6,6 +6,10 @@ import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/widgets/rounded_avatar.dart';
 
 class ProfileBody extends StatefulWidget {
+  final Function onMenuChanged;
+
+  const ProfileBody({Key key, this.onMenuChanged}) : super(key: key);
+
   @override
   _ProfileBodyState createState() => _ProfileBodyState();
 }
@@ -17,53 +21,83 @@ class _ProfileBodyState extends State<ProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      // Expanded로 펼치지 않으면, 화면에 보이지 않게됨.
-      child: CustomScrollView(
-        slivers: <Widget>[
-          // 아래 구문은 패턴처럼 사용하면 됨. 리스트와 그리드뷰등을 모아서 동작하는 것을 만들기 위해 sliver를 사용
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(common_gap),
-                    child: RoundedAvatar(
-                      size: 80,
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _appbar(),
+          Expanded(
+            // Expanded로 펼치지 않으면, 화면에 보이지 않게됨.
+            child: CustomScrollView(
+              slivers: <Widget>[
+                // 아래 구문은 패턴처럼 사용하면 됨. 리스트와 그리드뷰등을 모아서 동작하는 것을 만들기 위해 sliver를 사용
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(common_gap),
+                          child: RoundedAvatar(
+                            size: 80,
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: common_gap),
+                            child: Table(
+                              children: [
+                                TableRow(children: [
+                                  _valueText('123123'),
+                                  _valueText('456342'),
+                                  _valueText('6123512'),
+                                ]),
+                                TableRow(children: [
+                                  _labelText('Post'),
+                                  _labelText('Followers'),
+                                  _labelText('Following'),
+                                ]),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: common_gap),
-                      child: Table(
-                        children: [
-                          TableRow(children: [
-                            _valueText('123123'),
-                            _valueText('456342'),
-                            _valueText('6123512'),
-                          ]),
-                          TableRow(children: [
-                            _labelText('Post'),
-                            _labelText('Followers'),
-                            _labelText('Following'),
-                          ]),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              _userName(),
-              _userBio(),
-              _editProfileBtn(),
-              _tabButtons(),
-              _selectedIndicator(),
-            ]),
+                    _userName(),
+                    _userBio(),
+                    _editProfileBtn(),
+                    _tabButtons(),
+                    _selectedIndicator(),
+                  ]),
+                ),
+                _imagesPager(),
+              ],
+            ),
           ),
-
-          _imagesPager(),
         ],
       ),
+    );
+  }
+
+  Row _appbar() {
+    return Row(
+      children: [
+        SizedBox(
+          width: 44,
+        ),
+        // Expanded로 묶으면, IconButton이 자리 차지하고, 나머지를 Text가 다 차지함.
+        Expanded(
+          child: Text(
+            'The Coding Papa',
+            textAlign: TextAlign.center,
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {
+            widget.onMenuChanged();
+          },
+        )
+      ],
     );
   }
 
