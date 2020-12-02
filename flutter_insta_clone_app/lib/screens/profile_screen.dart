@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/widgets/profile_body.dart';
+import 'package:flutter_insta_clone_app/widgets/profile_side_menu.dart';
+
+const duration = Duration(milliseconds: 1000);
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -9,8 +12,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final duration = Duration(milliseconds: 300);
-  final menuWidth = size.width / 2;
+  final menuWidth = size.width / 3 * 2;
 
   MenuStatus _menuStatus = MenuStatus.closed;
   double bodyXPos = 0;
@@ -50,9 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             duration: duration,
             curve: Curves.fastOutSlowIn,
             transform: Matrix4.translationValues(menuXPos, 0, 0),
-            child: Container(
-              color: Colors.deepPurpleAccent,
-            ),
+            child: ProfileSideMenu(menuWidth),
           ),
         ],
       ),
