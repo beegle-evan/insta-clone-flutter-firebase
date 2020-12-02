@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/widgets/profile_body.dart';
@@ -20,6 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: Stack(
+        fit: StackFit.expand,
         children: <Widget>[
           AnimatedContainer(
             duration: duration,
@@ -48,13 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             duration: duration,
             curve: Curves.fastOutSlowIn,
             transform: Matrix4.translationValues(menuXPos, 0, 0),
-            child: Positioned(
-              width: size.width / 2,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                color: Colors.deepPurpleAccent,
-              ),
+            child: Container(
+              color: Colors.deepPurpleAccent,
             ),
           ),
         ],
