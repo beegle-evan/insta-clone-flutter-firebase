@@ -12,8 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'flutter app',
-      home: AuthScreen(),
-      // home: HomePage(),
+      // home: AuthScreen(),
+      home: HomePage(),
       theme: ThemeData(
         primarySwatch: white,
       ),
