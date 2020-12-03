@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   int _selectedIndex = 0;
+  GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   List<Widget> _screens = <Widget>[
     // Command + d 단축키로 아래로 반복 복사를 할 수 있다
@@ -43,8 +44,9 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
+      key: _key,
       // body에 _screens를 그냥 넣으면, 복잡한 화면일때 항상 새로 다시 그리면서, 불필요한 작업이 많은 문제가 발생한다.
-      // 이를 수정하기 위해, IndexedStack을 사
+      // 이를 수정하기 위해, IndexedStack을 사용함.
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,
@@ -85,11 +87,11 @@ class _HomePageState extends State<HomePage> {
         action: SnackBarAction(
           label: 'OK',
           onPressed: () {
-            Scaffold.of(context).hideCurrentSnackBar();
+            _key.currentState.hideCurrentSnackBar();
           },
         ),
       );
-      Scaffold.of(context).showSnackBar(snackBar);
+      _key.currentState.showSnackBar(snackBar);
     }
   }
 
