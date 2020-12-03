@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/screens/camera_screen.dart';
@@ -88,6 +89,7 @@ class _HomePageState extends State<HomePage> {
           label: 'OK',
           onPressed: () {
             _key.currentState.hideCurrentSnackBar();
+            AppSettings.openAppSettings();
           },
         ),
       );
