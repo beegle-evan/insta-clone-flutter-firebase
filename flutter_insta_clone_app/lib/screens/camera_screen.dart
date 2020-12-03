@@ -29,10 +29,10 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: widget._cameraState),
-        ChangeNotifierProvider(
-          create: (context) => CameraState(),
-        ),
+        ChangeNotifierProvider<CameraState>.value(value: widget._cameraState),
+        // ChangeNotifierProvider(
+        //   create: (context) => CameraState(),
+        // ),
       ],
       child: Scaffold(
         appBar: AppBar(

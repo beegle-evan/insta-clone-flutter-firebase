@@ -24,9 +24,13 @@ class _TakePhotoState extends State<TakePhoto> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CameraState>(builder: (BuildContext context, CameraState cameraState, Widget child) {
+    return Consumer<CameraState>(builder: (
+      BuildContext context,
+      CameraState cameraState,
+      Widget child,
+    ) {
       return Column(
-        children: [
+        children: <Widget>[
           Container(
             width: size.width,
             height: size.width,
