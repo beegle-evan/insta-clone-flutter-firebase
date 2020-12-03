@@ -80,53 +80,72 @@ class _SignUpFormState extends State<SignUpForm> {
                   }
                 },
               ),
-              FlatButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    // TextFormField에서, validator의 체크 후, return null이 오는 경우, 이 조건문은 true가 된다.
-                    print('Validation success!!');
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                  }
-                },
-                child: Text(
-                  'Join',
-                  style: TextStyle(color: Colors.white),
-                ),
-                color: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(common_s_gap),
-                ),
+              SizedBox(
+                height: common_xs_gap,
               ),
+              _submitButton(context),
               SizedBox(
                 height: common_s_gap,
               ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    height: 1,
-                    child: Container(
-                      color: Colors.grey[300],
-                      height: 1,
-                    ),
-                  ),
-                  Container(
-                    color: Colors.grey[50],
-                    height: 3,
-                    width: 60,
-                  ),
-                  Text(
-                    'OR',
-                    style: TextStyle(color: Colors.grey[500], fontWeight: FontWeight.bold),
-                  ),
-                ],
+              _orDivider(),
+              FlatButton.icon(
+                onPressed: () {},
+                textColor: Colors.blue,
+                icon: ImageIcon(
+                  AssetImage('assets/images/facebook.png'),
+                ),
+                label: Text('login witth Facebook'),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  FlatButton _submitButton(BuildContext context) {
+    return FlatButton(
+      onPressed: () {
+        if (_formKey.currentState.validate()) {
+          // TextFormField에서, validator의 체크 후, return null이 오는 경우, 이 조건문은 true가 된다.
+          print('Validation success!!');
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+        }
+      },
+      child: Text(
+        'Join',
+        style: TextStyle(color: Colors.white),
+      ),
+      color: Colors.blue,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(common_s_gap),
+      ),
+    );
+  }
+
+  Stack _orDivider() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned(
+          left: 0,
+          right: 0,
+          height: 1,
+          child: Container(
+            color: Colors.grey[300],
+            height: 1,
+          ),
+        ),
+        Container(
+          color: Colors.grey[50],
+          height: 3,
+          width: 60,
+        ),
+        Text(
+          'OR',
+          style: TextStyle(color: Colors.grey[500], fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 
