@@ -32,9 +32,7 @@ class ProfileSideMenu extends StatelessWidget {
               ),
               title: Text('Sign out'),
               onTap: () {
-                //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => AuthScreen()));
-                Provider.of<FirebaseAuthState>(context, listen: false)
-                    .changeFirebaseAuthStatus(FirebaseAuthStatus.signout);
+                Provider.of<FirebaseAuthState>(context, listen: false).signOut();
               },
             )
           ],
