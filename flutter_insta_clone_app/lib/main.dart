@@ -12,6 +12,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   FirebaseAuthState _firebaseAuthState = FirebaseAuthState();
+  Widget _currentWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +24,19 @@ class MyApp extends StatelessWidget {
           builder: (BuildContext context, FirebaseAuthState firebaseAuthState, Widget child) {
             switch (firebaseAuthState.firebaseAuthStatus) {
               case FirebaseAuthStatus.signout:
-                return AuthScreen();
+                _currentWidget = AuthScreen();
+                break;
               case FirebaseAuthStatus.signin:
-                return HomePage();
+                _currentWidget = HomePage();
+                break;
               case FirebaseAuthStatus.progress:
               default:
-                return MyProgressIndicator();
+                _currentWidget = MyProgressIndicator();
             }
+            return AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: _currentWidget,
+            );
           },
           child: HomePage(),
         ),
