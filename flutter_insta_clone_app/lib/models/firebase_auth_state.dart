@@ -2,8 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseAuthState extends ChangeNotifier {
-  FirebaseAuthStatus _firebaseAuthStatus = FirebaseAuthStatus.progress;
+  FirebaseAuthStatus _firebaseAuthStatus = FirebaseAuthStatus.signout;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseUser _firebaseUser;
+
+  void watchAuthChange() {
+    _firebaseAuth.onAuthStateChanged.listen((firebaseUser) {
+      if (_firebaseUser == null && _firebaseUser == null) {
+        return;
+      } else if (firebaseUser != _firebaseUser) {
+        _firebaseUser = firebaseUser;
+        changeFirebaseAuthStatus();
+      }
+    });
+  }
 
   void changeFirebaseAuthStatus([FirebaseAuthStatus firebaseAuthStatus]) {
     if (_firebaseAuthStatus != null) {
@@ -17,6 +29,8 @@ class FirebaseAuthState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  FirebaseAuthStatus get firebaseAuthStatus => _firebaseAuthStatus;
 }
 
 enum FirebaseAuthStatus { signout, progress, signin }
