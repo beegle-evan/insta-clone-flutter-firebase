@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/auth_input_decor.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
-import 'package:flutter_insta_clone_app/home_page.dart';
 import 'package:flutter_insta_clone_app/models/firebase_auth_state.dart';
 import 'package:flutter_insta_clone_app/widgets/or_divider.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +87,9 @@ class _SignInFormState extends State<SignInForm> {
                 height: common_s_gap,
               ),
               FlatButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<FirebaseAuthState>(context, listen: false).loginWithFacebook(context);
+                },
                 textColor: Colors.blue,
                 icon: ImageIcon(
                   AssetImage('assets/images/facebook.png'),
