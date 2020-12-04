@@ -6,6 +6,7 @@ import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/screens/camera_screen.dart';
 import 'package:flutter_insta_clone_app/screens/feed_screen.dart';
 import 'package:flutter_insta_clone_app/screens/profile_screen.dart';
+import 'package:flutter_insta_clone_app/screens/search_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // stateless widget을 stateful widget으로 변경하는데, 간단히 바꾸는것은 옵션+엔터 단축키로 바꾸는 것이다.
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _screens = <Widget>[
     // Command + d 단축키로 아래로 반복 복사를 할 수 있다
     FeedScreen(),
-    Container(color: Colors.blueAccent),
+    SearchScreen(),
     Container(color: Colors.greenAccent),
     Container(color: Colors.deepPurpleAccent),
     ProfileScreen(),
