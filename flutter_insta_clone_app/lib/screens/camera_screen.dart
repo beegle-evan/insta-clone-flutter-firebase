@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/models/camera_state.dart';
+import 'package:flutter_insta_clone_app/models/gallery_state.dart';
 import 'package:flutter_insta_clone_app/widgets/my_gallery.dart';
 import 'package:flutter_insta_clone_app/widgets/take_photo.dart';
 import 'package:provider/provider.dart';
 
 class CameraScreen extends StatefulWidget {
   CameraState _cameraState = CameraState();
+  GalleryState _galleryState = GalleryState();
 
   @override
   _CameraScreenState createState() {
     _cameraState.getReadyToTakePhoto();
+    _galleryState.initProvider();
     return _CameraScreenState();
   }
 }
@@ -23,6 +26,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void dispose() {
     _pageController.dispose();
     widget._cameraState.dispose();
+    widget._galleryState.dispose();
     super.dispose();
   }
 
@@ -34,6 +38,7 @@ class _CameraScreenState extends State<CameraScreen> {
         // ChangeNotifierProvider(
         //   create: (context) => CameraState(),
         // ),
+        ChangeNotifierProvider<GalleryState>.value(value: widget._galleryState),
       ],
       child: Scaffold(
         appBar: AppBar(
