@@ -114,7 +114,7 @@ class _SignUpFormState extends State<SignUpForm> {
           // TextFormField에서, validator의 체크 후, return null이 오는 경우, 이 조건문은 true가 된다.
           print('Validation success!!');
           Provider.of<FirebaseAuthState>(context, listen: false)
-              .registerUser(email: _emailController.text, password: _pwController.text);
+              .registerUser(context, email: _emailController.text, password: _pwController.text);
         }
       },
       child: Text(
