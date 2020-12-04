@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/widgets/rounded_avatar.dart';
 
 class SearchScreen extends StatefulWidget {
