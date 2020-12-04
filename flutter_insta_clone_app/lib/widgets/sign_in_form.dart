@@ -108,8 +108,8 @@ class _SignInFormState extends State<SignInForm> {
         if (_formKey.currentState.validate()) {
           // TextFormField에서, validator의 체크 후, return null이 오는 경우, 이 조건문은 true가 된다.
           print('Validation success!!');
-          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-          Provider.of<FirebaseAuthState>(context, listen: false).changeFirebaseAuthStatus(FirebaseAuthStatus.signin);
+          Provider.of<FirebaseAuthState>(context, listen: false)
+              .login(email: _emailController.text, password: _pwController.text);
         }
       },
       child: Text(

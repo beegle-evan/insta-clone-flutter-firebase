@@ -8,13 +8,21 @@ class FirebaseAuthState extends ChangeNotifier {
 
   void watchAuthChange() {
     _firebaseAuth.onAuthStateChanged.listen((firebaseUser) {
-      if (_firebaseUser == null && _firebaseUser == null) {
+      if (firebaseUser == null && _firebaseUser == null) {
         return;
       } else if (firebaseUser != _firebaseUser) {
         _firebaseUser = firebaseUser;
         changeFirebaseAuthStatus();
       }
     });
+  }
+
+  void registerUser({@required String email, @required String password}) {
+    _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+  }
+
+  void login({@required String email, @required String password}) {
+    _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
   }
 
   void signOut() {
@@ -27,7 +35,7 @@ class FirebaseAuthState extends ChangeNotifier {
   }
 
   void changeFirebaseAuthStatus([FirebaseAuthStatus firebaseAuthStatus]) {
-    if (_firebaseAuthStatus != null) {
+    if (firebaseAuthStatus != null) {
       _firebaseAuthStatus = firebaseAuthStatus;
     } else {
       if (_firebaseUser != null) {

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/auth_input_decor.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/home_page.dart';
+import 'package:flutter_insta_clone_app/models/firebase_auth_state.dart';
 import 'package:flutter_insta_clone_app/widgets/or_divider.dart';
+import 'package:provider/provider.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -111,7 +113,8 @@ class _SignUpFormState extends State<SignUpForm> {
         if (_formKey.currentState.validate()) {
           // TextFormField에서, validator의 체크 후, return null이 오는 경우, 이 조건문은 true가 된다.
           print('Validation success!!');
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+          Provider.of<FirebaseAuthState>(context, listen: false)
+              .registerUser(email: _emailController.text, password: _pwController.text);
         }
       },
       child: Text(
