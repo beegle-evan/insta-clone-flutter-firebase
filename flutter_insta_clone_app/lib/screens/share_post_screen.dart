@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_clone_app/constants/common_size.dart';
+import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 
 class SharePostScreen extends StatelessWidget {
   final File imageFile;
@@ -14,6 +16,62 @@ class SharePostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.file(imageFile);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Post'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {},
+            child: Text(
+              "Share",
+              textScaleFactor: 1.4,
+              style: TextStyle(color: Colors.blue),
+            ),
+          ),
+        ],
+      ),
+      body: ListView(
+        children: <Widget>[
+          _captionWidthImage(),
+          _divider,
+          _sectionButton('Tag Poeple'),
+          _divider,
+          _sectionButton('Add Location'),
+        ],
+      ),
+    );
+  }
+
+  Divider get _divider => Divider(
+        color: Colors.grey[300],
+        thickness: 1,
+        height: 1,
+      );
+
+  ListTile _sectionButton(String title) {
+    return ListTile(
+      title: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.w400),
+      ),
+      trailing: Icon(Icons.navigate_next),
+      dense: true,
+      contentPadding: EdgeInsets.symmetric(horizontal: common_gap),
+    );
+  }
+
+  ListTile _captionWidthImage() {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(vertical: common_xxs_gap, horizontal: common_xxs_gap),
+      leading: Image.file(
+        imageFile,
+        width: size.width / 6,
+        height: size.width / 6,
+        fit: BoxFit.cover,
+      ),
+      title: TextField(
+        decoration: InputDecoration(hintText: 'Write a caption...', border: InputBorder.none),
+      ),
+    );
   }
 }
