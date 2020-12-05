@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_insta_clone_app/repo/user_network_repository.dart';
 import 'package:flutter_insta_clone_app/widgets/post.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -21,8 +22,22 @@ class FeedScreen extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            IconButton(icon: ImageIcon(AssetImage('assets/images/actionbar_camera.png'),color: Colors.black87,), onPressed: null),
-            IconButton(icon: ImageIcon(AssetImage('assets/images/actionbar_camera.png'),color: Colors.black87,), onPressed: null)
+            IconButton(
+                icon: ImageIcon(
+                  AssetImage('assets/images/actionbar_camera.png'),
+                  color: Colors.black87,
+                ),
+                onPressed: () {
+                  userNetworkRepository.sendData();
+                }),
+            IconButton(
+                icon: ImageIcon(
+                  AssetImage('assets/images/direct_message.png'),
+                  color: Colors.black87,
+                ),
+                onPressed: () {
+                  userNetworkRepository.getData();
+                })
           ],
         ),
       ),
@@ -37,5 +52,3 @@ class FeedScreen extends StatelessWidget {
     return Post(index);
   }
 }
-
-
