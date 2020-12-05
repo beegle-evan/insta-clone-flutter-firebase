@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
                 break;
               case FirebaseAuthStatus.signin:
                 userNetworkRepository.getUserModelStream(firebaseAuthState.firebaseUser.uid).listen((userModel) {
-                  Provider.of<UserModelState>(context).userModel = userModel;
+                  Provider.of<UserModelState>(context, listen: false).userModel =
+                      userModel; // UserModel 안에 notifyListener가 호출되므로, listen:false를 호출해줘야함.
                 });
                 _currentWidget = HomePage();
                 break;
