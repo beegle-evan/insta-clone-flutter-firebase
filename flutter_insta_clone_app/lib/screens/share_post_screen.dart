@@ -3,16 +3,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
+import 'package:flutter_tags/flutter_tags.dart';
 
 class SharePostScreen extends StatelessWidget {
   final File imageFile;
   final String postKey;
 
-  const SharePostScreen(
+  SharePostScreen(
     this.imageFile, {
     Key key,
     @required this.postKey,
   }) : super(key: key);
+
+  List<String> _tagsItems = ["apple", "orange", "banana", "graph", "watermelon"];
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,22 @@ class SharePostScreen extends StatelessWidget {
           _sectionButton('Tag Poeple'),
           _divider,
           _sectionButton('Add Location'),
+          Tags(
+            horizontalScroll: true,
+            heightHorizontalScroll: 30,
+            itemCount: _tagsItems.length,
+            itemBuilder: (index) => ItemTags(
+              title: _tagsItems[index],
+              index: index,
+              activeColor: Colors.grey[200],
+              textActiveColor: Colors.black87,
+              borderRadius: BorderRadius.circular(4),
+              elevation: 2,
+              splashColor: Colors.grey[800],
+              highlightColor: Colors.red,
+              color: Colors.redAccent,
+            ),
+          ),
         ],
       ),
     );
