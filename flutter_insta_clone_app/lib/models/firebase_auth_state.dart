@@ -155,12 +155,12 @@ class FirebaseAuthState extends ChangeNotifier {
   void _handleFacebookTokenWithFirebase(BuildContext context, String token) async {
     final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken: token);
     final AuthResult authResult = await _firebaseAuth.signInWithCredential(credential);
-    final FirebaseUser user = authResult.user;
 
-    if (user == null) {
+    _firebaseUser = authResult.user;
+    if (_firebaseUser == null) {
       SimpleSnackbar(context, '페이스북을 통한 로그인 중 에러가 발생하였습니다. 나중에 다시 시도해주세요.');
     } else {
-      _firebaseUser = user;
+      await userNetworkRepository.attemptCreateUser(userKey: _firebaseUser.uid, email: _firebaseUser.email);
     }
     notifyListeners();
   }
