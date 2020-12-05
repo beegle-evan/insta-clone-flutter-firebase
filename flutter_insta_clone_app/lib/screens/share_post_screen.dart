@@ -21,13 +21,14 @@ class SharePostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    imageNetworkRepository.uploadImageNCreateNewPost(imageFile);
     return Scaffold(
       appBar: AppBar(
         title: Text('New Post'),
         actions: <Widget>[
           FlatButton(
-            onPressed: () {},
+            onPressed: () {
+              imageNetworkRepository.uploadImageNCreateNewPost(imageFile);
+            },
             child: Text(
               "Share",
               textScaleFactor: 1.4,
