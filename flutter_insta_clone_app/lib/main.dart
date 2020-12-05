@@ -31,13 +31,11 @@ class MyApp extends StatelessWidget {
           builder: (BuildContext context, FirebaseAuthState firebaseAuthState, Widget child) {
             switch (firebaseAuthState.firebaseAuthStatus) {
               case FirebaseAuthStatus.signout:
+                _clearUserModel(context);
                 _currentWidget = AuthScreen();
                 break;
               case FirebaseAuthStatus.signin:
-                userNetworkRepository.getUserModelStream(firebaseAuthState.firebaseUser.uid).listen((userModel) {
-                  Provider.of<UserModelState>(context, listen: false).userModel =
-                      userModel; // UserModel 안에 notifyListener가 호출되므로, listen:false를 호출해줘야함.
-                });
+                _initUserModel(firebaseAuthState, context);
                 _currentWidget = HomePage();
                 break;
               case FirebaseAuthStatus.progress:
@@ -55,5 +53,20 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _initUserModel(FirebaseAuthState firebaseAuthState, BuildContext context) {
+    UserModelState userModelState = Provider.of<UserModelState>(context, listen: false);
+
+    userModelState.currentStreamSub =
+        userNetworkRepository.getUserModelStream(firebaseAuthState.firebaseUser.uid).listen((userModel) {
+      Provider.of<UserModelState>(context, listen: false).userModel =
+          userModel; // UserModel 안에 notifyListener가 호출되므로, listen:false를 호출해줘야함.
+    });
+  }
+
+  void _clearUserModel(BuildContext context) {
+    UserModelState userModelState = Provider.of<UserModelState>(context, listen: false);
+    userModelState.clear();
   }
 }
