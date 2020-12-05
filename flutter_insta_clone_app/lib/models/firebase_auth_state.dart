@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_insta_clone_app/repo/user_network_repository.dart';
 import 'package:flutter_insta_clone_app/utils/simple_snackbar.dart';
 
 class FirebaseAuthState extends ChangeNotifier {
@@ -26,10 +27,12 @@ class FirebaseAuthState extends ChangeNotifier {
   }
 
   // context는 scaffold에서 사용하는 context이어야 한다.
-  void registerUser(BuildContext context, {@required String email, @required String password}) {
+  void registerUser(BuildContext context, {@required String email, @required String password}) async {
     changeFirebaseAuthStatus(FirebaseAuthStatus.progress);
     // trim 메소드를 사용하면, 띄어쓰기가 들어가있어도 정리해준다.
-    _firebaseAuth.createUserWithEmailAndPassword(email: email.trim(), password: password.trim()).catchError((error) {
+    AuthResult authReuslt = await _firebaseAuth
+        .createUserWithEmailAndPassword(email: email.trim(), password: password.trim())
+        .catchError((error) {
       print(error);
       String _message = "";
       switch (error.code) {
@@ -49,6 +52,17 @@ class FirebaseAuthState extends ChangeNotifier {
       );
       Scaffold.of(context).showSnackBar(snackBar);
     });
+
+    FirebaseUser firebaseUser = authReuslt.user;
+    if (firebaseUser == null) {
+      SimpleSnackbar(context, "Please try again later!");
+      // SnackBar snackBar = SnackBar(
+      //   content: Text("Please try again later!"),
+      // );
+      // Scaffold.of(context).showSnackBar(snackBar);
+    } else {
+      await userNetworkRepository.attemptCreateUser(userKey: firebaseUser.uid, email: firebaseUser.email);
+    }
   }
 
   void login(BuildContext context, {@required String email, @required String password}) {
