@@ -22,6 +22,10 @@ class ImageNetworkRepository {
 
   // 이 key를 통해서 스토리지를 접근하고, 저장하는 것들을 수행한다.
   String _getImagePathByPostKey(String postKey) => 'post/$postKey/post.jpg';
+
+  Future<dynamic> getPostImageUrl(String postKey) {
+    return FirebaseStorage().ref().child(_getImagePathByPostKey(postKey)).getDownloadURL();
+  }
 }
 
 ImageNetworkRepository imageNetworkRepository = ImageNetworkRepository();

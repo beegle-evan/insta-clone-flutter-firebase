@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
+import 'package:flutter_insta_clone_app/repo/image_network_repository.dart';
 import 'package:flutter_insta_clone_app/widgets/comment.dart';
 import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:flutter_insta_clone_app/widgets/rounded_avatar.dart';
@@ -72,21 +73,31 @@ class Post extends StatelessWidget {
     );
   }
 
-  CachedNetworkImage _postImage() {
-    return CachedNetworkImage(
-      imageUrl: 'https://picsum.photos/id/$index/200/200',
-      placeholder: (BuildContext context, String url) {
-        return MyProgressIndicator(
-          containerSize: size.height,
-        );
-      },
-      imageBuilder: (BuildContext context, ImageProvider imageProvider) {
-        return AspectRatio(
-          aspectRatio: 1,
-          child: Container(decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
-        );
-      },
+  Widget _postImage() {
+    Widget progress = MyProgressIndicator(
+      containerSize: size.width,
     );
+
+    return FutureBuilder<dynamic>(
+        future: imageNetworkRepository.getPostImageUrl("postkey"),
+        builder: (context, snapshot) {
+          if (snapshot.hasData)
+            return CachedNetworkImage(
+              imageUrl: 'https://picsum.photos/id/$index/200/200',
+              placeholder: (BuildContext context, String url) {
+                return progress;
+              },
+              imageBuilder: (BuildContext context, ImageProvider imageProvider) {
+                return AspectRatio(
+                  aspectRatio: 1,
+                  child: Container(
+                      decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
+                );
+              },
+            );
+          else
+            return progress;
+        });
   }
 
   Widget _postCaption() {
