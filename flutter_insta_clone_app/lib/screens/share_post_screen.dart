@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
+import 'package:flutter_insta_clone_app/repo/image_network_repository.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
 class SharePostScreen extends StatelessWidget {
@@ -20,6 +21,7 @@ class SharePostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    imageNetworkRepository.uploadImageNCreateNewPost(imageFile);
     return Scaffold(
       appBar: AppBar(
         title: Text('New Post'),
