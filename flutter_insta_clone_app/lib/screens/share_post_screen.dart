@@ -30,7 +30,7 @@ class SharePostScreen extends StatelessWidget {
             onPressed: () async {
               showModalBottomSheet(
                   context: context, builder: (_) => MyProgressIndicator(), isDismissible: false, enableDrag: false);
-              await imageNetworkRepository.uploadImageNCreateNewPost(imageFile);
+              await imageNetworkRepository.uploadImageNCreateNewPost(imageFile, postKey: postKey);
               Navigator.of(context).pop(); // uploadImageNCreateNewPost를 처리하고 나서, showModalBottomSheet를 제거해준다.
             },
             child: Text(
