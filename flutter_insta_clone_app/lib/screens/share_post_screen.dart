@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
 import 'package:flutter_insta_clone_app/repo/image_network_repository.dart';
+import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
 class SharePostScreen extends StatelessWidget {
@@ -26,8 +27,11 @@ class SharePostScreen extends StatelessWidget {
         title: Text('New Post'),
         actions: <Widget>[
           FlatButton(
-            onPressed: () {
-              imageNetworkRepository.uploadImageNCreateNewPost(imageFile);
+            onPressed: () async {
+              showModalBottomSheet(
+                  context: context, builder: (_) => MyProgressIndicator(), isDismissible: false, enableDrag: false);
+              await imageNetworkRepository.uploadImageNCreateNewPost(imageFile);
+              Navigator.of(context).pop(); // uploadImageNCreateNewPost를 처리하고 나서, showModalBottomSheet를 제거해준다.
             },
             child: Text(
               "Share",
