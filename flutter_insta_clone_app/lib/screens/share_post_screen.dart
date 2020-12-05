@@ -4,11 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
+import 'package:flutter_insta_clone_app/models/firestore/post_model.dart';
+import 'package:flutter_insta_clone_app/models/firestore/user_model.dart';
+import 'package:flutter_insta_clone_app/models/user_model_state.dart';
 import 'package:flutter_insta_clone_app/repo/image_network_repository.dart';
+import 'package:flutter_insta_clone_app/repo/post_network_repository.dart';
 import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:provider/provider.dart';
 
-class SharePostScreen extends StatelessWidget {
+class SharePostScreen extends StatefulWidget {
   final File imageFile;
   final String postKey;
 
@@ -18,7 +23,19 @@ class SharePostScreen extends StatelessWidget {
     @required this.postKey,
   }) : super(key: key);
 
+  @override
+  _SharePostScreenState createState() => _SharePostScreenState();
+}
+
+class _SharePostScreenState extends State<SharePostScreen> {
+  TextEditingController _textEditingController = TextEditingController();
   List<String> _tagsItems = ["apple", "orange", "banana", "graph", "watermelon"];
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +44,7 @@ class SharePostScreen extends StatelessWidget {
         title: Text('New Post'),
         actions: <Widget>[
           FlatButton(
-            onPressed: () async {
-              showModalBottomSheet(
-                  context: context, builder: (_) => MyProgressIndicator(), isDismissible: false, enableDrag: false);
-              await imageNetworkRepository.uploadImageNCreateNewPost(imageFile, postKey: postKey);
-              Navigator.of(context).pop(); // uploadImageNCreateNewPost를 처리하고 나서, showModalBottomSheet를 제거해준다.
-            },
+            onPressed: sharePostProcedure,
             child: Text(
               "Share",
               textScaleFactor: 1.4,
@@ -59,6 +71,24 @@ class SharePostScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void sharePostProcedure() async {
+    showModalBottomSheet(
+        context: context, builder: (_) => MyProgressIndicator(), isDismissible: false, enableDrag: false);
+    await imageNetworkRepository.uploadImage(widget.imageFile, postKey: widget.postKey);
+    UserModel usermodel = Provider.of<UserModelState>(context, listen: false).userModel;
+
+    await postNetworkRepository.createNewPost(
+      widget.postKey,
+      PostModel.getMapForCreatePost(usermodel.userKey, usermodel.username, _textEditingController.text),
+    );
+
+    String postImgLink = await imageNetworkRepository.getPostImageUrl(widget.postKey);
+    await postNetworkRepository.updatePostImageUrl(postKey: widget.postKey, postImg: postImgLink);
+
+    Navigator.of(context).pop(); // uploadImageNCreateNewPost를 처리하고 나서, showModalBottomSheet를 제거해준다.
+    Navigator.of(context).pop(); // share post screen 화면에서 나감.
   }
 
   Tags _tags() {
@@ -102,12 +132,14 @@ class SharePostScreen extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(vertical: common_xxs_gap, horizontal: common_xxs_gap),
       leading: Image.file(
-        imageFile,
+        widget.imageFile,
         width: size.width / 6,
         height: size.width / 6,
         fit: BoxFit.cover,
       ),
       title: TextField(
+        controller: _textEditingController,
+        autofocus: true,
         decoration: InputDecoration(hintText: 'Write a caption...', border: InputBorder.none),
       ),
     );

@@ -79,11 +79,11 @@ class Post extends StatelessWidget {
     );
 
     return FutureBuilder<dynamic>(
-        future: imageNetworkRepository.getPostImageUrl("postkey"),
+        future: imageNetworkRepository.getPostImageUrl("1607160351942_qTOClBigrqQpzYykeXFvdy2Lxs82"),
         builder: (context, snapshot) {
           if (snapshot.hasData)
             return CachedNetworkImage(
-              imageUrl: 'https://picsum.photos/id/$index/200/200',
+              imageUrl: snapshot.data.toString(),
               placeholder: (BuildContext context, String url) {
                 return progress;
               },

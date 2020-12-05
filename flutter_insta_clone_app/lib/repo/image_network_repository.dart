@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_insta_clone_app/repo/helper/images_helper.dart';
 
 class ImageNetworkRepository {
-  Future<void> uploadImageNCreateNewPost(File originImage, {@required String postKey}) async {
+  Future<StorageTaskSnapshot> uploadImage(File originImage, {@required String postKey}) async {
     try {
       // isolate를 이용하여, 작업을 다른 쪽에 넘겨서 처리,, thread같이..
       final File resized = await compute(getResizedImage, originImage);
