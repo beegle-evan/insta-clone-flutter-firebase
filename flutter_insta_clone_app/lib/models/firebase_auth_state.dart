@@ -65,9 +65,11 @@ class FirebaseAuthState extends ChangeNotifier {
     }
   }
 
-  void login(BuildContext context, {@required String email, @required String password}) {
+  void login(BuildContext context, {@required String email, @required String password}) async {
     changeFirebaseAuthStatus(FirebaseAuthStatus.progress);
-    _firebaseAuth.signInWithEmailAndPassword(email: email.trim(), password: password.trim()).catchError((error) {
+    AuthResult authReuslt = await _firebaseAuth
+        .signInWithEmailAndPassword(email: email.trim(), password: password.trim())
+        .catchError((error) {
       print(error);
       String _message = "";
       switch (error.code) {
@@ -96,6 +98,11 @@ class FirebaseAuthState extends ChangeNotifier {
       );
       Scaffold.of(context).showSnackBar(snackBar);
     });
+
+    _firebaseUser = authReuslt.user;
+    if (_firebaseUser == null) {
+      SimpleSnackbar(context, "Please try again later!");
+    }
   }
 
   void signOut() async {
