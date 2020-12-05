@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/material_white.dart';
 import 'package:flutter_insta_clone_app/home_page.dart';
 import 'package:flutter_insta_clone_app/models/firebase_auth_state.dart';
+import 'package:flutter_insta_clone_app/models/user_model_state.dart';
+import 'package:flutter_insta_clone_app/repo/user_network_repository.dart';
 import 'package:flutter_insta_clone_app/screens/auth_screen.dart';
 import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +20,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     _firebaseAuthState.watchAuthChange();
 
-    return ChangeNotifierProvider<FirebaseAuthState>.value(
-      value: _firebaseAuthState,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FirebaseAuthState>.value(value: _firebaseAuthState),
+        ChangeNotifierProvider<UserModelState>(create: (_) => UserModelState()),
+      ],
       child: MaterialApp(
         // home: AuthScreen(),
         home: Consumer<FirebaseAuthState>(
@@ -29,6 +34,9 @@ class MyApp extends StatelessWidget {
                 _currentWidget = AuthScreen();
                 break;
               case FirebaseAuthStatus.signin:
+                userNetworkRepository.getUserModelStream(firebaseAuthState.firebaseUser.uid).listen((userModel) {
+                  Provider.of<UserModelState>(context).userModel = userModel;
+                });
                 _currentWidget = HomePage();
                 break;
               case FirebaseAuthStatus.progress:

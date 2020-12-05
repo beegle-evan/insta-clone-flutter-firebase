@@ -53,15 +53,15 @@ class FirebaseAuthState extends ChangeNotifier {
       Scaffold.of(context).showSnackBar(snackBar);
     });
 
-    FirebaseUser firebaseUser = authReuslt.user;
-    if (firebaseUser == null) {
+    _firebaseUser = authReuslt.user;
+    if (_firebaseUser == null) {
       SimpleSnackbar(context, "Please try again later!");
       // SnackBar snackBar = SnackBar(
       //   content: Text("Please try again later!"),
       // );
       // Scaffold.of(context).showSnackBar(snackBar);
     } else {
-      await userNetworkRepository.attemptCreateUser(userKey: firebaseUser.uid, email: firebaseUser.email);
+      await userNetworkRepository.attemptCreateUser(userKey: _firebaseUser.uid, email: _firebaseUser.email);
     }
   }
 
@@ -159,6 +159,7 @@ class FirebaseAuthState extends ChangeNotifier {
   }
 
   FirebaseAuthStatus get firebaseAuthStatus => _firebaseAuthStatus;
+  FirebaseUser get firebaseUser => _firebaseUser;
 }
 
 enum FirebaseAuthStatus { signout, progress, signin }

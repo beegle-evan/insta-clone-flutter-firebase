@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_insta_clone_app/constants/firestore_keys.dart';
 import 'package:flutter_insta_clone_app/models/firestore/user_model.dart';
-import 'package:local_image_provider/local_album.dart';
+import 'package:flutter_insta_clone_app/repo/helper/transformers.dart';
 
-class UserNetworkRepository {
+class UserNetworkRepository with Transformers {
   // Future<void> sendData() {
   //   return Firestore.instance.collection('Users').document('123123123').setData(
   //     {'email': 'testing@google.com', 'username': 'myUserName'},
@@ -21,6 +21,10 @@ class UserNetworkRepository {
     if (!snapshot.exists) {
       return await userRef.setData(UserModel.getMapForCreateUser(email));
     }
+  }
+
+  Stream<UserModel> getUserModelStream(String userKey) {
+    return Firestore.instance.collection(COLLECTION_USERS).document(userKey).snapshots().transform(toUser);
   }
 }
 
