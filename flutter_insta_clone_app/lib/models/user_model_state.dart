@@ -16,9 +16,9 @@ class UserModelState extends ChangeNotifier {
   set currentStreamSub(StreamSubscription<UserModel> currentStreamSub) => _currentStreamSub = currentStreamSub;
 
   // User가 로그아웃 했을 때, 더이상 구독하지 않기 위해 클리어 호출해야함
-  clear() {
+  clear() async {
     if (_currentStreamSub != null) {
-      _currentStreamSub.cancel();
+      await _currentStreamSub.cancel();
     }
     _currentStreamSub = null;
     _userModel = null;
