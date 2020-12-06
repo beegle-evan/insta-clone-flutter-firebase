@@ -3,16 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/common_size.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
+import 'package:flutter_insta_clone_app/models/firestore/post_model.dart';
 import 'package:flutter_insta_clone_app/repo/image_network_repository.dart';
 import 'package:flutter_insta_clone_app/widgets/comment.dart';
 import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:flutter_insta_clone_app/widgets/rounded_avatar.dart';
 
 class Post extends StatelessWidget {
-  final int index;
+  final PostModel postModel;
 
   Post(
-    this.index, {
+    this.postModel, {
     Key key,
   }) : super(key: key);
 
@@ -26,17 +27,8 @@ class Post extends StatelessWidget {
         _postActions(),
         _postLikes(),
         _postCaption(),
+        _lastCaption(),
       ],
-    );
-  }
-
-  Padding _postLikes() {
-    return Padding(
-      padding: const EdgeInsets.only(left: common_gap),
-      child: Text(
-        '120000 likes',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
     );
   }
 
@@ -61,7 +53,7 @@ class Post extends StatelessWidget {
           padding: const EdgeInsets.all(common_xxs_gap),
           child: RoundedAvatar(),
         ),
-        Text('username'),
+        Expanded(child: Text(postModel.username)),
         IconButton(
           onPressed: null,
           icon: Icon(
@@ -78,26 +70,18 @@ class Post extends StatelessWidget {
       containerSize: size.width,
     );
 
-    return FutureBuilder<dynamic>(
-        future: imageNetworkRepository.getPostImageUrl("1607160351942_qTOClBigrqQpzYykeXFvdy2Lxs82"),
-        builder: (context, snapshot) {
-          if (snapshot.hasData)
-            return CachedNetworkImage(
-              imageUrl: snapshot.data.toString(),
-              placeholder: (BuildContext context, String url) {
-                return progress;
-              },
-              imageBuilder: (BuildContext context, ImageProvider imageProvider) {
-                return AspectRatio(
-                  aspectRatio: 1,
-                  child: Container(
-                      decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
-                );
-              },
-            );
-          else
-            return progress;
-        });
+    return CachedNetworkImage(
+      imageUrl: postModel.postImg,
+      placeholder: (BuildContext context, String url) {
+        return progress;
+      },
+      imageBuilder: (BuildContext context, ImageProvider imageProvider) {
+        return AspectRatio(
+          aspectRatio: 1,
+          child: Container(decoration: BoxDecoration(image: DecorationImage(image: imageProvider, fit: BoxFit.cover))),
+        );
+      },
+    );
   }
 
   Widget _postCaption() {
@@ -109,8 +93,33 @@ class Post extends StatelessWidget {
       ),
       child: Comment(
         showImage: false,
-        username: 'testingUser',
-        text: 'I have money!!!!',
+        username: postModel.username,
+        text: postModel.caption,
+      ),
+    );
+  }
+
+  Widget _lastCaption() {
+    // 글 안에 다양한 폰트와 글자들이 사용될 경우 RichText를 사용
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: common_gap,
+        vertical: common_xxs_gap,
+      ),
+      child: Comment(
+        showImage: false,
+        username: postModel.lastCommentor,
+        text: postModel.lastComment,
+      ),
+    );
+  }
+
+  Padding _postLikes() {
+    return Padding(
+      padding: const EdgeInsets.only(left: common_gap),
+      child: Text(
+        '${postModel.numOfLikes == null ? 0 : postModel.numOfLikes} likes',
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

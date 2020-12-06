@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_insta_clone_app/constants/firestore_keys.dart';
 import 'package:flutter_insta_clone_app/models/firestore/user_model.dart';
-import 'package:flutter_insta_clone_app/repo/helper/generate_post_key.dart';
 import 'package:flutter_insta_clone_app/repo/helper/transformers.dart';
 
 class UserNetworkRepository with Transformers {

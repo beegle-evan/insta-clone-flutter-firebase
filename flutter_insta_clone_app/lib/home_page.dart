@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insta_clone_app/constants/screen_size.dart';
+import 'package:flutter_insta_clone_app/models/user_model_state.dart';
 import 'package:flutter_insta_clone_app/screens/camera_screen.dart';
 import 'package:flutter_insta_clone_app/screens/feed_screen.dart';
 import 'package:flutter_insta_clone_app/screens/profile_screen.dart';
 import 'package:flutter_insta_clone_app/screens/search_screen.dart';
+import 'package:flutter_insta_clone_app/widgets/my_progress_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 // stateless widget을 stateful widget으로 변경하는데, 간단히 바꾸는것은 옵션+엔터 단축키로 바꾸는 것이다.
 // 옵셥 + 엔터 하면, stateful widget으로 변경하는 옵션이 나온다.
@@ -34,7 +37,18 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _screens = <Widget>[
     // Command + d 단축키로 아래로 반복 복사를 할 수 있다
-    FeedScreen(),
+    Consumer<UserModelState>(
+      builder: (BuildContext context, UserModelState userModelState, Widget child) {
+        if (userModelState == null ||
+            userModelState.userModel == null ||
+            userModelState.userModel.followings == null ||
+            userModelState.userModel.followings.isEmpty) {
+          return MyProgressIndicator();
+        } else {
+          return FeedScreen(userModelState.userModel.followings);
+        }
+      },
+    ),
     SearchScreen(),
     Container(color: Colors.greenAccent),
     Container(color: Colors.deepPurpleAccent),
