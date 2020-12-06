@@ -23,10 +23,11 @@ class PostModel {
         caption = map[KEY_CAPTION],
         lastCommentor = map[KEY_LASTCOMMENTOR],
         lastComment = map[KEY_LASTCOMMENT],
-        lastCommentTime =
-            map[KEY_LASTCOMMENTTIME] == null ? DateTime.now().toUtc : (map[KEY_LASTCOMMENTTIME] as Timestamp).toDate(),
+        lastCommentTime = map[KEY_LASTCOMMENTTIME] == null
+            ? DateTime.now().toUtc()
+            : (map[KEY_LASTCOMMENTTIME] as Timestamp).toDate(),
         numOfComments = map[KEY_NUMOFCOMMENTS],
-        postTime = map[KEY_POSTTIME] == null ? DateTime.now().toUtc : (map[KEY_POSTTIME] as Timestamp).toDate();
+        postTime = map[KEY_POSTTIME] == null ? DateTime.now().toUtc() : (map[KEY_POSTTIME] as Timestamp).toDate();
 
   PostModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, snapshot.documentID, reference: snapshot.reference);
