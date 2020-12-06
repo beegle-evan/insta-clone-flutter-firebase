@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_insta_clone_app/models/firestore/comment_model.dart';
 import 'package:flutter_insta_clone_app/models/firestore/post_model.dart';
 import 'package:flutter_insta_clone_app/models/firestore/user_model.dart';
 
@@ -30,6 +31,17 @@ class Transformers {
       posts.add(PostModel.fromSnapshot(documentSnapshot));
     });
     sink.add(posts);
+  });
+
+  final toComments =
+      StreamTransformer<QuerySnapshot, List<CommentModel>>.fromHandlers(handleData: (snapshot, sink) async {
+    List<CommentModel> comments = [];
+
+    snapshot.documents.forEach((documentSnapshot) {
+      comments.add(CommentModel.fromSnapshot(documentSnapshot));
+    });
+
+    sink.add(comments);
   });
 
   final combineListOfPosts =

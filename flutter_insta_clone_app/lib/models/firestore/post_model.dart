@@ -11,7 +11,7 @@ class PostModel {
   final String lastCommentor;
   final String lastComment;
   final DateTime lastCommentTime;
-  final int numOfComment;
+  final int numOfComments;
   final DateTime postTime;
   final DocumentReference reference;
 
@@ -22,18 +22,14 @@ class PostModel {
         numOfLikes = map[KEY_NUMOFLIKES],
         caption = map[KEY_CAPTION],
         lastCommentor = map[KEY_LASTCOMMENTOR],
-        lastComment = map[KEY_LASTCOMMNET],
+        lastComment = map[KEY_LASTCOMMENT],
         lastCommentTime =
             map[KEY_LASTCOMMENTTIME] == null ? DateTime.now().toUtc : (map[KEY_LASTCOMMENTTIME] as Timestamp).toDate(),
-        numOfComment = map[KEY_NUMOFCOMMENTS],
+        numOfComments = map[KEY_NUMOFCOMMENTS],
         postTime = map[KEY_POSTTIME] == null ? DateTime.now().toUtc : (map[KEY_POSTTIME] as Timestamp).toDate();
 
   PostModel.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(
-          snapshot.data,
-          snapshot.documentID,
-          reference: snapshot.reference,
-        );
+      : this.fromMap(snapshot.data, snapshot.documentID, reference: snapshot.reference);
 
   static Map<String, dynamic> getMapForCreatePost(String userKey, String username, String caption) {
     Map<String, dynamic> map = Map();
@@ -44,7 +40,7 @@ class PostModel {
     map[KEY_NUMOFLIKES] = [];
     map[KEY_CAPTION] = caption;
     map[KEY_LASTCOMMENTOR] = "";
-    map[KEY_LASTCOMMNET] = "";
+    map[KEY_LASTCOMMENT] = "";
     map[KEY_LASTCOMMENTTIME] = DateTime.now().toUtc();
     map[KEY_NUMOFCOMMENTS] = 0;
     map[KEY_POSTTIME] = DateTime.now().toUtc();

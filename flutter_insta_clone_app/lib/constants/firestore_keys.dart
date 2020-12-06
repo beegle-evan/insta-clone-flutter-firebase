@@ -1,5 +1,6 @@
 const COLLECTION_POSTS = "Posts";
 const COLLECTION_USERS = "Users";
+const COLLECTION_COMMENTS = 'Comments';
 
 const KEY_USERKEY = 'user_key';
 const KEY_PROFILEIMG = 'profile_img';
@@ -13,10 +14,11 @@ const KEY_USERNAME = 'username';
 const KEY_COMMENT = 'comment';
 const KEY_COMMENTTIME = 'commenttime';
 
+const KEY_POSTKEY = 'post_key';
 const KEY_POSTIMG = 'postimg';
 const KEY_POSTURI = 'posturi';
 const KEY_CAPTION = 'caption';
-const KEY_LASTCOMMNET = 'last_comment';
+const KEY_LASTCOMMENT = 'last_comment';
 const KEY_LASTCOMMENTOR = 'last_commentor';
 const KEY_LASTCOMMENTTIME = 'last_commenttime';
 const KEY_NUMOFLIKES = 'num_of_likes';
